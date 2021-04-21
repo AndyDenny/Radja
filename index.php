@@ -1,69 +1,11 @@
 <?php
 //RadJa
-/*
-$txtarea =  $_REQUEST["namesfiles"];
-$arLinks = explode(',',$txtarea);
-
-if ($arLinks[0]){    
-    foreach ($arLinks as $k=>$link){        
-        if (strlen($link) > 4){            
-            $link = trim($link);
-            if ( stripos ($link , $_SERVER["HTTP_HOST"]) != -1){
-                $link = explode($_SERVER["HTTP_HOST"], $link)[1];
-                $link = ltrim (  $link ,   "/" );
-            }
-            elseif ( $link[0] =="/"){
-                   $link = ltrim (  $link ,   "/" );
-            }
-            $flsz = filesize($link);
-            copy($link,$link."-orig");      
-            $arSize = getimagesize($link);
-            $arLinkInfo[$k]["origfilesize"] = $flsz;
-            $arLinkInfo[$k]["url"] = $link;
-            $arLinkInfo[$k]["w"] = $arSize[0];
-            $arLinkInfo[$k]["h"] = $arSize[1];
-            $arLinkInfo[$k]["t"] = explode("/",$arSize["mime"])[1];        
-        }            
-    }
-}
-
-if ($arLinkInfo){
-    foreach ($arLinkInfo as $k=>$link){
-        $quality = 60;
-        $pngquality = 6;
-        $type = $link["t"];
-        switch ($type) {
-            case 'jpeg':
-            case 'jpg':
-            case 'JPG':
-                $resizeimg = imagecreatefromjpeg ($link["url"]);
-                imagejpeg($resizeimg,$link["url"],$quality);
-                $arLinkInfo[$k]["newsize"] = filesize($link["url"]);        
-                break;
-            case 'png':
-            case 'PNG':
-                $resizeimg = imagecreatefrompng ($link["url"]);
-                imagepng($resizeimg,$link["url"],$pngquality);
-                $arLinkInfo[$k]["newsize"] = filesize($link["url"]);
-                break;
-            case 'gif':
-            case 'GIF':
-                $resizeimg = imagecreatefromgif ($link["url"]);
-                imagegif($resizeimg,$link["url"],$quality);
-                $arLinkInfo[$k]["newsize"] = filesize($link["url"]);
-                break;    
-            default:
-                echo $link["url"]." - unknown format.";
-                break;
-        }
-    }
-}*/
 
 class Radja
 {
 
     public function mess ($vari){
-        /**
+        /** test function
         * print instans variable
         */
             echo $vari;
@@ -121,6 +63,44 @@ class Radja
             }
     }
 
+    public function compressing($arLinkInfo){
+        
+        if ($arLinkInfo){
+            foreach ($arLinkInfo as $k=>$link){
+                $quality = 60;
+                $pngquality = 6;
+                $type = $link["t"];
+                switch ($type) {
+                    case 'jpeg':
+                    case 'jpg':
+                    case 'JPG':
+                        $resizeimg = imagecreatefromjpeg ($link["url"]);
+                        imagejpeg($resizeimg,$link["url"],$quality);
+                        $arLinkInfo[$k]["newsize"] = filesize($link["url"]);        
+                        break;
+                    case 'png':
+                    case 'PNG':
+                        $resizeimg = imagecreatefrompng ($link["url"]);
+                        imagepng($resizeimg,$link["url"],$pngquality);
+                        $arLinkInfo[$k]["newsize"] = filesize($link["url"]);
+                        break;
+                    case 'gif':
+                    case 'GIF':
+                        $resizeimg = imagecreatefromgif ($link["url"]);
+                        imagegif($resizeimg,$link["url"],$quality);
+                        $arLinkInfo[$k]["newsize"] = filesize($link["url"]);
+                        break;    
+                    default:
+                        echo $link["url"]." - unknown format.";
+                        break;
+                }
+            }
+        }
+
+    }
+
+
+//end class
 }
 
 
@@ -139,6 +119,7 @@ print_r($_POST);
 </textarea>
 <br>
 <button type="submit">GO</button>
+<button type="submit" class="<?= $_REQUEST["namesfiles"] ? "" : "hide"?>" name="backups">Create backups for files</button>
 </form>
 
 <div class="arlinks">
