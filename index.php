@@ -152,6 +152,7 @@ endforeach;
 }?>
 </div>
 <style>
+
 body{
     background-color: #edf1cb;
 }
